@@ -1,7 +1,19 @@
 import React, {useState} from 'react';
-import {SafeAreaView, StyleSheet, View, Text, TextInput, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard} from 'react-native';
+import {
+	SafeAreaView, 
+	StyleSheet, 
+	View, 
+	Text, 
+	TextInput, 
+	KeyboardAvoidingView, 
+	Platform, 
+	TouchableWithoutFeedback, 
+	Keyboard,
+	Alert
+	} from 'react-native';
 import {Entypo} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/core';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
@@ -13,7 +25,7 @@ export function UserIdentification(){
 	const [isFilled, setIsFilled] = useState(false);
 	const [name, setName] = useState<string>();
 
-		const navigation = useNavigation();
+	const navigation = useNavigation();
 
 
 	function handleInputBlur(){
@@ -30,8 +42,25 @@ export function UserIdentification(){
 		setName(value);
 	}
 
-	function handleSubmit(){
-		navigation.navigate('Confirmation');
+	async function handleSubmit(){
+		if(!name){
+			return Alert.alert('Me diz como chamar você 😢️');
+		}
+
+		try{
+		//Chave e valor a serem armazenados
+		await AsyncStorage.setItem('@plantmanager:user', name);
+
+		navigation.navigate('Confirmation', {
+			title: 'Prontinho',
+			subTitle: 'Agora vamos começar a cuidar das suas plantinhas com muito cuidado.',
+			buttonTitle: 'Começar',
+			icon: 'smile',
+			nextScreen: 'PlantSelect'
+		});
+	} catch{
+		Alert.alert('Não foi possível salvar o seu nome 😢️');
+		}
 	}
 
 	return(

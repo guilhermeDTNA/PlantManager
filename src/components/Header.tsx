@@ -1,18 +1,34 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
 import {getStatusBarHeight} from 'react-native-iphone-x-helper';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 import userImg from '../assets/guilherme.jpg';
 
 export function Header(){
+
+	const [userName, setUserName] = useState<string>();
+
+	useEffect(() => {
+		async function loadStorageUserName(){
+			const user = await AsyncStorage.getItem('@plantmanager:user');
+
+			setUserName(user || '');
+		}
+
+		loadStorageUserName();
+	}, [userName]);
+	//Quando há o nome do estado nos colchetes, o useEffect será executado sempre que ele for alterado
+
+
 	return(
 
 		<View style={styles.container}>
 			<View>
 				<Text style={styles.greeting}>Olá, </Text>
-				<Text style={styles.userName}>Guilherme</Text>
+				<Text style={styles.userName}>{userName}</Text>
 			</View>
 
 			<Image style={styles.image} source={userImg} />
