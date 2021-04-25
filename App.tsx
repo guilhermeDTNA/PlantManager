@@ -4,6 +4,8 @@ import {useFonts, Jost_400Regular, Jost_600SemiBold} from '@expo-google-fonts/jo
 
 import Routes from './src/routes';
 
+console.disableYellowBox = true;
+
 export default function App(){
 
   //Enquanto as fontes não forem carregadas, chama o AppLoading para deixar na tela de carregamento splash
