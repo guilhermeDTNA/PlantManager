@@ -7,6 +7,7 @@
 <p>Para executar o software em ambiente em desktop, basta ter o Expo instalado e executar os seguintes comandos: </p>
 
 ```console
+$ json-server ./src/services/server.json --host 192.168.1.9 --port 3333 --delay 700
 $ sudo expo install 
 $ expo start
 ```
