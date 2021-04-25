@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, FlatList, ActivityIndicator} from 'react-native';
+import {View, Text, StyleSheet, FlatList, ActivityIndicator, ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/core';
 
 import colors from '../styles/colors';
@@ -105,7 +105,7 @@ export function PlantSelect(){
 	}
 
 	return(
-
+		<ScrollView showsVerticalScrollIndicator={false}>
 		<View style={styles.container}>
 			<View style={styles.header}>
 
@@ -158,7 +158,7 @@ export function PlantSelect(){
 			</View>
 			
 		</View>
-
+		</ScrollView>
 	)
 }
 
