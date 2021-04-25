@@ -12,7 +12,7 @@ export function Welcome(){
 	const navigation = useNavigation();
 
 	function handleStart(){
-		navigation.navigate('UserIdentification');
+		navigation.navigate('UserIdentification', {buttonTitle:"Confirmar"});
 	}
 
 	return(

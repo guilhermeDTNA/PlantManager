@@ -12,7 +12,7 @@ import {
 	Alert
 	} from 'react-native';
 import {Entypo} from '@expo/vector-icons';
-import {useNavigation} from '@react-navigation/core';
+import {useNavigation, useRoute} from '@react-navigation/core';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import colors from '../styles/colors';
@@ -20,12 +20,21 @@ import fonts from '../styles/fonts';
 
 import {Button} from '../components/Button';
 
+interface Params{
+	buttonTitle: string;
+}
+
 export function UserIdentification(){
 	const [isFocused, setIsFocused] = useState(false);
 	const [isFilled, setIsFilled] = useState(false);
 	const [name, setName] = useState<string>();
 
 	const navigation = useNavigation();
+	const routes = useRoute();
+
+	const{
+		buttonTitle
+	} = routes.params as Params;
 
 
 	function handleInputBlur(){
@@ -92,7 +101,7 @@ export function UserIdentification(){
 						onChangeText={handleInputChange}
 						/>
 					<View style={styles.footer}>
-						<Button title="Confirmar" onPress={handleSubmit} />
+						<Button title={buttonTitle} onPress={handleSubmit} />
 					</View>
 					</View>
 				</View>
