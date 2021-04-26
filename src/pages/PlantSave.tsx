@@ -93,8 +93,7 @@ export function PlantSave(){
 					</View>
 
 					<Text style={styles.alertLabel}>
-						Lorem, ipsum dolor, sit amet consectetur adipisicing elit. 
-					Esse, animi.
+						Escolha o melhor horário para ser lembrado.
 					</Text>
 
 					{showDatePicker &&(
