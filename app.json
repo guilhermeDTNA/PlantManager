@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "plantManager",
+    "description": "App that help its user to remember watering his/her plants",
     "slug": "plantManager",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -23,7 +24,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.guilherme.plantManager"
     },
     "web": {
       "favicon": "./assets/favicon.png"
