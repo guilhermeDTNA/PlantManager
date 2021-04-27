@@ -1,4 +1,12 @@
-node_modules/
+node_modules/*
+!node_modules/expo-file-system
+node_modules/expo-file-system/*
+!node_modules/expo-file-system/android
+node_modules/expo-file-system/android/*
+!node_modules/expo-file-system/android/src/
+node_modules/expo-file-system/android/src/main/*
+!node_modules/expo-file-system/android/src/main/AndroidManifest.xml
+
 .expo/
 npm-debug.*
 *.jks

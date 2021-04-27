@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
 	SafeAreaView, 
 	StyleSheet, 
@@ -9,11 +9,14 @@ import {
 	Platform, 
 	TouchableWithoutFeedback, 
 	Keyboard,
-	Alert
-	} from 'react-native';
+	Image,
+	Alert,
+	TouchableOpacity
+} from 'react-native';
 import {Entypo} from '@expo/vector-icons';
 import {useNavigation, useRoute} from '@react-navigation/core';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as ImagePicker from 'expo-image-picker';
 
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
@@ -28,6 +31,51 @@ export function UserIdentification(){
 	const [isFocused, setIsFocused] = useState(false);
 	const [isFilled, setIsFilled] = useState(false);
 	const [name, setName] = useState<string>();
+
+	const [image, setImage] = useState("https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png");
+
+	useEffect(() => {
+		async function storeProfileDefault(){
+
+			await AsyncStorage.setItem('@plantmanager:imageProfile', image);
+		}
+
+		storeProfileDefault();
+	});
+
+	const pickImage = async () => {
+
+		if (Platform.OS !== 'web') {
+			const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+			if (status !== 'granted') {
+				alert('Desculpe, mas precisamos de sua permissão para acessar a galeria');
+			}
+		}
+
+		let result = await ImagePicker.launchImageLibraryAsync({
+			mediaTypes: ImagePicker.MediaTypeOptions.All,
+			allowsEditing: true,
+			aspect: [4, 3],
+			quality: 1,
+		});
+
+		if (!result.cancelled) {
+			await setImage(result.uri);
+
+			try{
+				//Chave e valor a serem armazenados
+				if(result.uri!==''){
+					await AsyncStorage.setItem('@plantmanager:imageProfile', result.uri);	
+				}
+
+
+			} catch{
+				Alert.alert('Não foi possível salvar a sua foto 😢️');
+			}
+		}
+
+		
+	};
 
 	const navigation = useNavigation();
 	const routes = useRoute();
@@ -57,59 +105,66 @@ export function UserIdentification(){
 		}
 
 		try{
-		//Chave e valor a serem armazenados
-		await AsyncStorage.setItem('@plantmanager:user', name);
+			//Chave e valor a serem armazenados
+			await AsyncStorage.setItem('@plantmanager:user', name);
 
-		navigation.navigate('Confirmation', {
-			title: 'Prontinho',
-			subTitle: 'Agora vamos começar a cuidar das suas plantinhas com muito cuidado.',
-			buttonTitle: 'Começar',
-			icon: 'smile',
-			nextScreen: 'PlantSelect'
-		});
-	} catch{
-		Alert.alert('Não foi possível salvar o seu nome 😢️');
+			navigation.navigate('Confirmation', {
+				title: 'Prontinho',
+				subTitle: 'Agora vamos começar a cuidar das suas plantinhas com muito cuidado.',
+				buttonTitle: 'Começar',
+				icon: 'smile',
+				nextScreen: 'PlantSelect'
+			});
+		} catch{
+			Alert.alert('Não foi possível salvar o seu nome 😢️');
 		}
 	}
 
+	//{isFilled ? <Entypo name="emoji-happy" size={24} color="green" style={styles.emoji} /> : <Entypo name="emoji-flirt" size={24} color="green" style={styles.emoji} />}
+
+
 	return(
 		<SafeAreaView style={styles.container}>
-			<KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-			
-			<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-			<View style={styles.content}>
-				<View style={styles.form} >
-				<View style={styles.header}>
-					
-					{isFilled ? <Entypo name="emoji-happy" size={24} color="green" style={styles.emoji} /> : <Entypo name="emoji-flirt" size={24} color="green" style={styles.emoji} />}
+		<KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 
-					
+		<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+		<View style={styles.content}>
+		<View style={styles.form} >
+		<View style={styles.header}>
 
-					<Text style={styles.title}>
-						Como podemos {'\n'} 
-						chamar você?
-					</Text>
+		<TouchableOpacity onPress={pickImage}>
+		<Image style={styles.image} source={{
+			uri: image,
+		}} />
+		</TouchableOpacity>
 
-					<TextInput 
-					style={[
-							styles.input,
-							(isFocused || isFilled) && {borderColor: colors.green}
-						]} 
-						placeholder="Digite um nome" 
-						onBlur={handleInputBlur} 
-						onFocus={handleInputFocus}
-						onChangeText={handleInputChange}
-						/>
-					<View style={styles.footer}>
-						<Button title={buttonTitle} onPress={handleSubmit} />
-					</View>
-					</View>
-				</View>
+
+		<Text style={styles.title}>
+		Como podemos {'\n'} 
+		chamar você?
+		</Text>
+
+		<TextInput 
+		style={[
+			styles.input,
+			(isFocused || isFilled) && {borderColor: colors.green}
+			]} 
+			placeholder="Digite um nome" 
+			onBlur={handleInputBlur} 
+			onFocus={handleInputFocus}
+			onChangeText={handleInputChange}
+
+			/>
+			<View style={styles.footer}>
+			<Button title={buttonTitle} onPress={handleSubmit} />
+			</View>
+			</View>
+			</View>
 			</View>
 			</TouchableWithoutFeedback>
 			</KeyboardAvoidingView>
-		</SafeAreaView>	
-	)
+			</SafeAreaView>	
+			)
 }
 
 const styles = StyleSheet.create({
@@ -157,5 +212,10 @@ const styles = StyleSheet.create({
 		marginTop: 40,
 		width: '100%',
 		paddingHorizontal: 20
-	}
+	},
+	image:{
+		width: 100,
+		height: 100,
+		borderRadius: 40
+	},
 })

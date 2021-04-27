@@ -5,11 +5,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
-import userImg from '../assets/guilherme.jpg';
 
 export function Header(){
 
 	const [userName, setUserName] = useState<string>();
+	const [imageUserProfile, setImageUserProfile] = useState<string>();
 
 	useEffect(() => {
 		async function loadStorageUserName(){
@@ -22,6 +22,15 @@ export function Header(){
 	}, [userName]);
 	//Quando há o nome do estado nos colchetes, o useEffect será executado sempre que ele for alterado
 
+	useEffect(() => {
+		async function loadStorageUserProfile(){
+			const imageProfile = await AsyncStorage.getItem('@plantmanager:imageProfile');
+
+			setImageUserProfile(imageProfile || '');
+		}
+
+		loadStorageUserProfile();
+	}, [imageUserProfile]);
 
 	return(
 
@@ -31,7 +40,9 @@ export function Header(){
 				<Text style={styles.userName}>{userName}</Text>
 			</View>
 
-			<Image style={styles.image} source={userImg} />
+			<Image style={styles.image} source={{
+				uri: imageUserProfile,
+			}} />
 		</View>
 
 	)
