@@ -10,3 +10,30 @@
 $ sudo expo install 
 $ expo start
 ```
+
+<p>Abaixo estão listados os prints das telas do aplicativo:</p>
+
+<p align="center">
+  
+<img src="https://github.com/guilhermeDTNA/PlantManager/blob/main/prints/print1.png" width="200" alt="Tela Inicial">
+<img src="https://github.com/guilhermeDTNA/PlantManager/blob/main/prints/print2.png" width="200" alt="Tela 2">
+<img src="https://github.com/guilhermeDTNA/PlantManager/blob/main/prints/print3.png" width="200" alt="Tela 3">
+<img src="https://github.com/guilhermeDTNA/PlantManager/blob/main/prints/print4.png" width="200" alt="Tela 4">
+
+</p>
+
+<br>
+
+<p align="center">
+  
+<img src="https://github.com/guilhermeDTNA/PlantManager/blob/main/prints/print5.png" width="200" alt="Tela 5">
+<img src="https://github.com/guilhermeDTNA/PlantManager/blob/main/prints/print6.png" width="200" alt="Tela 6">
+<img src="https://github.com/guilhermeDTNA/PlantManager/blob/main/prints/print7.png" width="200" alt="Tela 7">
+
+</p>
+
+<br>
+
+<p align="center">
+  <img src="https://github.com/guilhermeDTNA/PlantManager/blob/main/prints/execucao.gif" width="200" alt="Execução">
+</p>
